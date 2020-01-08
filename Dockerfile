@@ -3,6 +3,7 @@ ARG STACK_VERSION=18
 FROM heroku/heroku:$STACK_VERSION-build
 
 ARG STACK_VERSION=18
+ARG DOCKERIZE_VERSION=0.6.1
 ARG RUBY_VERSION=2.6.5
 ARG BUNDLER_VERSION=2.0.2
 ARG NODE_VERSION=12.14.0
@@ -11,6 +12,7 @@ ARG DEFAULT_WORKDIR=/usr/src/app
 
 ENV LANG=en_US.UTF-8 \
   STACK=heroku-$STACK_VERSION \
+  DOCKERIZE_VERSION=$DOCKERIZE_VERSION \
   BUNDLE_JOBS=3 BUNDLE_RETRY=3 \
   RUBY_VERSION=$RUBY_VERSION \
   BUNDLER_VERSION=$BUNDLER_VERSION \
@@ -21,8 +23,9 @@ ENV LANG=en_US.UTF-8 \
   YARN_HOME=/usr/local/lib/yarn \
   BUNDLE_PATH=/usr/local/lib/bundle
 
-# RUN apt-get update && \
-#   apt-get install -y --force-yes --no-install-recommends imagemagick sqlite3
+RUN curl -s --retry 3 -L \
+    https://github.com/jwilder/dockerize/releases/download/v$DOCKERIZE_VERSION/dockerize-linux-amd64-v$DOCKERIZE_VERSION.tar.gz \
+    | tar xz -C /usr/local/bin
 
 RUN mkdir -p $RUBY_HOME && \
   curl -s --retry 3 -L \

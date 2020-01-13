@@ -20,8 +20,7 @@ ENV LANG=en_US.UTF-8 \
   YARN_VERSION=$YARN_VERSION \
   RUBY_HOME=/usr/local/lib/ruby \
   NODE_HOME=/usr/local/lib/node \
-  YARN_HOME=/usr/local/lib/yarn \
-  BUNDLE_PATH=/usr/local/lib/bundle
+  YARN_HOME=/usr/local/lib/yarn
 
 RUN curl -s --retry 3 -L \
     https://github.com/jwilder/dockerize/releases/download/v$DOCKERIZE_VERSION/dockerize-linux-amd64-v$DOCKERIZE_VERSION.tar.gz \
@@ -45,7 +44,4 @@ RUN mkdir -p $YARN_HOME && \
 ENV PATH $RUBY_HOME/bin:$YARN_HOME/bin:$NODE_HOME/bin:$PATH
 
 RUN gem install -f bundler:$BUNDLER_VERSION && \
-  curl https://cli-assets.heroku.com/install.sh | sh && \
-  mkdir $DEFAULT_WORKDIR
-
-WORKDIR $DEFAULT_WORKDIR
+  curl https://cli-assets.heroku.com/install.sh | sh
